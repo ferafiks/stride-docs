@@ -557,10 +557,22 @@ items:
         href: scripts/create-a-script.md
       - name: Use a script
         href: scripts/use-a-script.md
-      - name: Public properties and fields
-        href: scripts/public-properties-and-fields.md
       - name: Serialization
-        href: scripts/serialization.md
+        href: scripts/serialization/index.md
+        items:
+          - name: Properties and fields
+            href: scripts/serialization/properties-and-fields.md
+          - name: Arrays
+            href: scripts/serialization/arrays.md
+          - name: Lists
+            href: scripts/serialization/lists.md
+          - name: Dictionaries
+            href: scripts/serialization/dictionaries.md
+          - name: Scene elements
+            href: scripts/serialization/scene-elements.md
+          - name: Non-script classes and structs
+            href: scripts/serialization/non-script-classes-and-structs.md
+
       - name: Scheduling and priorities
         href: scripts/scheduling-and-priorities.md
       - name: Events

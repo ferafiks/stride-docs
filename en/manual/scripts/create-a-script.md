@@ -3,127 +3,148 @@
 <span class="badge text-bg-primary">Beginner</span>
 <span class="badge text-bg-success">Programmer</span>
 
-You can create scripts using Game Studio or an IDE such as Visual Studio.
+You can create scripts using **Game Studio** or an **IDE** such as Visual Studio.
 
-## Create a script in Game Studio
+## Locations of script files
 
-1. In the **Asset View**, click **Add asset > Scripts** and select a script type.
+Unlike other assets, **scripts aren't stored in the Assets folder**. Instead, they are stored at the root of a [platform package](#TODO) and it's subfolders.
 
-	![Select script type window](media/create-a-script-script-asset-selection.png)
+TODO: VISUALIZATION
 
-	>[!Note]
-	>For information about different types of script, see [Types of script](types-of-script/index.md).
+In **Game Studio**, you can see the your project's scripts by going to the **Solution explorer** panel and selecting the **Scripts** folder.
 
-	The **New script** dialog opens.
+TODO: IMAGE
 
-	![New script](media/script-wizard.png)
+## [Game Studio](#tab/game-studio)
+
+1. In the **Asset view** panel, click **Add asset > Scripts** and select a [script type](types-of-script/index.md).
+    
+    ![Select script type window](media/create-a-script-script-asset-selection.png)
+    
+    > [!NOTE]
+    > For information about different types of script, see [Types of script](types-of-script/index.md).
 
 2. Specify a class and namespace for the script and click **Create script**.
+  
+  	![New script](media/script-wizard.png)
+  
+    > [!NOTE]
+    > If you don't know what a namespace is, you can just leave the default value.
 
 3. To use the script, you need to save it. By default, Game Studio prompts you to save the script now.
 
+TODO: CHECK THIS
+
 After you save the script, you can see it in the **Asset View**.
 
->[!Note]
-> Although scripts are a kind of asset, they're not saved in the Assets folder. Instead, they're saved in the relevant assembly folder. For more information, see [Project structure](../files-and-folders/project-structure.md).
-  
-You can also see the new script in Visual Studio.
+Here's an example of a script's contents.
 
-![New script on Asset View tab](media/create-a-script-new-script-asset-view.png)
-
-> [!Tip]
-> To open your solution in Visual Studio from Game Studio, click the ![Open in IDE](media/create-a-script-ide-icon.png) (**Open in IDE**) icon in the Game Studio toolbar.
-
-```cs
+```csharp
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Stride.Core.Mathematics;
 using Stride.Input;
 using Stride.Engine;
 
-namespace MyGame
+namespace NameOfGame;
+
+public class ScriptExample : SyncScript
 {
-	public class BasicAsyncScript : AsyncScript
-	{	
-		public override async Task Execute()
-		{
-			while(Game.IsRunning)
-			{
-				// Do some stuff every frame
-				await Script.NextFrame();
-			}
-		}
-	}
+    // Declared public member fields and properties will show in the game studio
+
+    public override void Start()
+    {
+        // Initialization of the script.
+    }
+
+    public override void Update()
+    {
+        // Do stuff every new frame
+    }
 }
 ```
 
-## Create a script in Visual Studio
+## [Visual Studio](#tab/visual-studio)
 
 1. Open Visual Studio.
+    
+    TODO: IMAGE OF THE OPEN IS VS BUTTON
 
-	> [!Tip]
-	> To open your solution in Visual Studio from Game Studio, click the ![Open in IDE](media/create-a-script-ide-icon.png) (**Open in IDE**) icon in the Game Studio toolbar.
+2. In the **Solution Explorer** panel, locate the C# project (Visual Studio's name for [project packages](#TODO)) in which you want to create your script in.
 
-	The game solution is composed of several projects:
-	
-	* The project ending *.Game* is the main project, and should contain all your game logic and scripts. 
-	
-	* Other projects (eg *MyGame.Windows*, *MyGame.Android* etc) contain platform-specific code.
+    In most scenarios, it's going to be the C# project named after your game (the one that doesn't end with `.Windows` or any other platform name).
+    
+    TODO: IMAGE
 
-	For more information, see [Project structure](../files-and-folders/project-structure.md).
+3. Right click on the C# project or one of it's directory and select **Add > New Item...**
+    
+    TODO: IMAGE
 
-2. Add a new class file to the `.Game` project. To do this, right-click the project and select **Add > New Item**.
+4. Select **Class**, fill out the name of your script and click **Add**.
 
-	The **Add New Item** dialog opens.
+5. Make your class inherit one of the [types of script](types-of-script/index.md) and implement the necessary abstract methods.
+    
+    For example:
+    
+    ```cs
+    using Stride.Engine;
+    
+    namespace MyGame;
+    
+    public class SampleSyncScript : SyncScript
+    {			
+        public override void Update()
+        {
+            if (Game.IsRunning)
+            {
+                // Do something every frame
+            }
+        }
+    }
+    ```
 
-3. Select **Class**, type a name for your script, and click **Add**.
-
-   Visual Studio adds a new class to your project.
-
-4. In the file you created, make sure the script is public and derives from either **AsyncScript** or **SyncScript**.
-
-5. Implement the necessary abstract methods.
-
-	For example:
-
-	```cs
-	using System;
-	using System.Text;
-	using System.Threading.Tasks;
-	using Stride.Core.Mathematics;
-	using Stride.Input;
-	using Stride.Engine;
-		
-	namespace MyGame
-	{
-		public class SampleSyncScript : SyncScript
-		{			
-			public override void Update()
-			{
-				if (Game.IsRunning)
-				{
-					// Do something every frame
-				}
-			}
-		}
-	}
-	```
+TODO: FINISH
 
 6. Save the project and script files.
 
 7. Because you modified the script, Game Studio needs to reload the assembly to show the changes.
-   
-	![Confirmation message](media/create-a-script-confirmation-message.png)
-
-	Click **Yes**.
-
+      
+    ![Confirmation message](media/create-a-script-confirmation-message.png)
+    
+    Click **Yes**.
+    
 You can see the script in the **Asset View**.
 
 ![New script on Asset View tab](media/create-a-script-new-script-asset-view.png)
 
->[!Note]
-> Although scripts are a kind of asset, they're not saved in the Assets folder. Instead, they're saved in the relevant assembly folder. For more information, see [Project structure](../files-and-folders/project-structure.md).
+## [Manual](#tab/manual)
+
+1. Create a new blank text file in a [platform package](#TODO) with the `.cs` extension
+2. Implement the necessary abstract methods. For example:\
+    
+    ```csharp
+    using Stride.Engine;
+    
+    namespace NameOfGame;
+    
+    public class ScriptExample : SyncScript
+    {
+        public override void Start()
+        {
+            // Initialization of the script.
+        }
+    
+        public override void Update()
+        {
+            // Do stuff every new frame
+        }
+    }
+    ```
+
+---
 
 ## See also
 
