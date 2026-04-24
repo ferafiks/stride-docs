@@ -575,12 +575,21 @@ items:
 
       - name: Scheduling and priorities
         href: scripts/scheduling-and-priorities.md
-      - name: Events
-        href: scripts/events.md
-      - name: Debugging
-        href: scripts/debugging.md
       - name: Preprocessor variables
         href: scripts/preprocessor-variables.md
+      - name: Features
+        href: scripts/features/index.md
+        items:
+          - name: Custom game
+            href: scripts/features/custom-game.md
+          - name: Game systems
+            href: scripts/features/game-systems.md
+          - name: Services
+            href: scripts/features/services.md
+          - name: Stride events
+            href: scripts/features/stride-events.md
+      - name: Debugging
+        href: scripts/debugging.md
       - name: Create a model from code
         href: scripts/create-a-model-from-code.md
       - name: Create Gizmos for your components
