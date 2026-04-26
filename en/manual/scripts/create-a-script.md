@@ -5,13 +5,13 @@
 
 You can create scripts using **Game Studio** or an **IDE** such as Visual Studio.
 
-## Locations of script files
+## Script folder
 
 Unlike other assets, **scripts aren't stored in the Assets folder**. Instead, they are stored at the root of a [platform package](#TODO) and it's subfolders.
 
 TODO: VISUALIZATION
 
-In **Game Studio**, you can see the your project's scripts by going to the **Solution explorer** panel and selecting the **Scripts** folder.
+In **Game Studio**, you can see your project's scripts by going to the **Solution explorer** panel and selecting the **Scripts** folder.
 
 TODO: IMAGE
 
@@ -123,7 +123,7 @@ You can see the script in the **Asset View**.
 ## [Manual](#tab/manual)
 
 1. Create a new blank text file in a [platform package](#TODO) with the `.cs` extension
-2. Implement the necessary abstract methods. For example:\
+2. Implement the necessary abstract methods. For example:
     
     ```csharp
     using Stride.Engine;
