@@ -113,6 +113,26 @@ items:
       - name: Set an audio device
         href: audio/set-an-audio-device.md
 
+  - name: Debugging
+    href: debugging/index.md
+    items:
+      - name: Code
+        href: debugging/code/index.md
+        items:
+          - name: Logging
+            href: debugging/code/logging.md
+          - name: Debug text
+            href: debugging/code/debug-text.md
+          - name: Unit tests
+            href: debugging/code/unit-tests.md
+      - name: Performance
+        href: debugging/performance/index.md
+        items:
+          - name: Game profiler
+            href: debugging/performance/game-profiler/index.md
+          - name: Render doc
+            href: debugging/performance/render-doc.md
+
   - name: Engine
     href: engine/index.md
     items:
