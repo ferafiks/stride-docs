@@ -64,14 +64,21 @@ items:
   expanded: false
   href: documentation/index.md
   items:
-  - name: Generation Pipeline
-    href: documentation/documentation-generation-pipeline.md
-  - name: Installation
-    href: documentation/installation.md
+  - name: Building the docs
+    href: documentation/building-the-docs.md
+  - name: Writing documentation
+    href: documentation/writing-documentation/index.md
+    items:
+      - name: Writing the manual
+        href: documentation/writing-documentation/writing-the-manual.md
+      - name: Writing tutorials
+        href: documentation/writing-documentation/writing-tutorials.md
+      - name: Writing API
+        href: documentation/writing-documentation/writing-api.md
+      - name: Translating the docs
+        href: documentation/writing-documentation/translating-the-docs.md
   - name: Content
     href: documentation/content.md
-#  - name: New language
-#    href: documentation/new-language.md
   - name: Roadmap
     href: documentation/roadmap.md
   - name: Docfx
