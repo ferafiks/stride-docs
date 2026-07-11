@@ -29,4 +29,4 @@ When creating a major issues you are required to:
 * [Create an issue](https://github.com/stride3d/stride-docs/issues), so that others can comment on your changes and provide feedback.
 * Test your changes locally by [building the website](../installation.md).
 * (Recommended) Provide screenshots of your changes.
-* (Recommended) Setup a page for deomsntration using [GitHub Pages](../deployment-azure.md#deployment-to-github-pages).
+* (Recommended) Setup a page for deomsntration using [GitHub Pages](../deploying-the-docs/deploying-the-docs-using-github-pages.md).

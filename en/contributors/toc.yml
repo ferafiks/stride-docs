@@ -77,18 +77,13 @@ items:
         href: documentation/writing-documentation/writing-api.md
       - name: Translating the docs
         href: documentation/writing-documentation/translating-the-docs.md
-  - name: Content
-    href: documentation/content.md
-  - name: Roadmap
-    href: documentation/roadmap.md
-  - name: Docfx
-    href: documentation/docfx.md
-  - name: Deployment
-    href: documentation/deployment-azure.md
-  - name: Major Release Workflow
-    href: documentation/major-release-workflow.md
-  - name: Troubleshooting and FAQ
-    href: documentation/troubleshooting-and-faq.md
+  - name: Deploying the docs
+    href: documentation/deploying-the-docs/index.md
+    items:
+      - name: Deploying the docs using Azure
+        href: documentation/deploying-the-docs/deploying-the-docs-using-azure.md
+      - name: Deploying the docs using GitHub Pages
+        href: documentation/deploying-the-docs/deploying-the-docs-using-github-pages.md
 - name: 🌐️ Contribute to the website
   expanded: false
   href: website/index.md
