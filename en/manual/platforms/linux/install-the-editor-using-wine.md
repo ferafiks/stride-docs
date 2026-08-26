@@ -2,7 +2,7 @@
 
 <span class="badge text-bg-primary">Intermediate</span>
 
-Even though you can compile and run Stride games on Linux, the editor remains Windows-exclusive, due to using WPF for its UI. However, starting with version `4.4.0-beta5`, it is now possible to use the editor on Linux using a compatibility layer such as Proton.
+Even though you can compile and run Stride games on Linux, the editor remains Windows-exclusive, due to using WPF as its UI framework. However, starting with version `4.4.0-beta5`, it is now possible to use the editor on Linux using a compatibility layer, such as Proton.
 
 > [!NOTE]
 > The editor is being rewritten to be cross-platform.
@@ -40,12 +40,12 @@ Before getting started, ensure your Linux system is ready.
 
 Additionally, you will have to download a few **Windows** applications.
 
-1. **Download the .NET 10 SDK for Windows.** We will have to install using the compatibility layer in order for Game Studio to work. You can get it from [this page](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-10.0.400-windows-x64-installer).
+1. **Download the .NET 10 SDK installer for Windows.** We will have to install it using the compatibility layer in order for Game Studio to work. You can get it from [this page](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-10.0.400-windows-x64-installer).
 2. **Download the Stride installer.** We only actually need it for installing Stride's Windows prerequiseties. You can get it from [the official website](http://stride3d.net/download/).
 
 ## Installation steps
 
-1. **Install a Proton runner.** Open *Bottles* or a different Proton/Wine manager of your choosing and install *Proton* by going to **Menu (located in the top right corner) > Preferences > Runners**. In this guide we will be using `ge-proton11-5`, but we generally recommend sticking with the latest version.
+1. **Install a Proton runner.** Open *Bottles* and install *Proton* by going to **Menu (located in the top right corner) > Preferences > Runners**. In this guide, we will be using `ge-proton11-5`, but we generally recommend sticking with the latest version.
     
     ![](media/bottles-download-proton.webp)
     
@@ -56,7 +56,7 @@ Additionally, you will have to download a few **Windows** applications.
 
     ![](media/bottles-create-bottle.webp)
 
-    Give your bottle (prefix) a **name** and make sure to **select the Proton runner**.
+    Give your bottle (prefix) a **name** and make sure to **select the correct Proton runner**.
 
     ![](media/bottles-create-bottle-properties.webp)
 
@@ -100,7 +100,7 @@ Additionally, you will have to download a few **Windows** applications.
     ```
 
     > [!WARNING]
-    > For *bottles* and any *flatpak* applications, the symlink needs to be **relative!**
+    > For *bottles* and all *flatpak* applications, the symlink needs to be **relative!**
 
 7. **Install required nuget packages.** We will also have to download a few packages to the cache. The easiest way of doing this is to:
 
@@ -151,7 +151,7 @@ Additionally, you will have to download a few **Windows** applications.
         dotnet build StrideProtonFix.csproj
         ```
 
-8. **Make sure `icu.dll` and `icuuc.dll` are using Windows versions.** While making this guide, we noticed that our prefix would try using Linux versions of the afformentioned DLLs, which would crash **Game Studio** on launch. This problem **may be exclusive to the version of Proton we were using**, so it might not be necessary for you.
+8. **Make sure `icu.dll` and `icuuc.dll` are using Windows versions.** While making this guide, we noticed that our prefix would try using Linux versions of the afformentioned DLLs, which would crash **Game Studio** on launch. This problem **may be exclusive to the version of Proton we were using**, so this step might not be necessary for you.
 
     In *Bottles*, go to **Settings > Compatibility > DLL Overrides** and add `icu.dll` and `icuuc.dll` to the list. You can now set their overrides to **Native (Windows)**.
 
@@ -162,7 +162,7 @@ Additionally, you will have to download a few **Windows** applications.
     In *Bottles*, click the **➕ Add shortcuts...** button and **select the Game Studio executable** from `drive_c/users/<nameOfUser>/.nuget/packages/stride.gamestudio/<engineVersion>/tools/net10.0-windows7.0/Stride.GameStudio.exe`.
 
     > [!TIP]
-    > Add the engine version to shortcut name, to not loose track.
+    > Change the name of the shortcut to include the engine version in order to not loose track.
 
 You should now be up-and-running. If the editor is still not working for you, go check out [Troubleshooting](#troubleshooting).
 
