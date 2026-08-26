@@ -1,4 +1,5 @@
 import gdscript from './highlight/gdscript.js'
+import sdsl from './highlight/sdsl.js'
 
 const app = {
     languageDropdownCreated: false,
@@ -245,6 +246,7 @@ const app = {
     },
     configureHljs: function (hljs) {
         hljs.registerLanguage('gdscript', gdscript);
+        hljs.registerLanguage('sdsl', sdsl);
     }
 };
 
