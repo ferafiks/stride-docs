@@ -6,7 +6,7 @@ The main focus of this release was on **modernization and reach**, which include
 
 This update also includes many exciting new features, such as a **CLI tool**, ability to **replace read-only assets** and much more.
 
-## ✨ Highlights
+## Highlights
 
 Here are a few of the stand-out changes:
 
@@ -18,7 +18,7 @@ So far, Stride has mostly been a Windows-first engine. Other platforms were supp
 
 ![A Stride sample running on a physical iPhone.](media/ReleaseNotes-4.4/ios.webp)
 
-**For Linux users:** this release removed some legacy code which now makes it possible to **use Game Studio on Linux via Proton/Wine**. The experience isn't as solid as on the native Windows version, but it's still a big step forward for Linux development. If you'd like to try it out, we have created a guide that's available in the documentation TODO: ADD LINK.
+**For Linux users:** this release removed some legacy code which now makes it possible to **use Game Studio on Linux via Proton/Wine**. The experience isn't as solid as on the native Windows version, but it's still a big step forward for Linux development. If you'd like to try it out, we have created a guide that's [available in the documentation](../manual/platforms/linux/install-the-editor-using-wine.md).
 
 ![Game Studio running on Linux.](media/ReleaseNotes-4.4/stride-proton.webp)
 
@@ -56,17 +56,19 @@ This overhaul also made it far easier to track down GPU crashes, as Stride can n
 
 You can now pick the graphics API right from the UI for both your project and the editor. Game Studio can be configured in **Settings > Environment > Graphics API** (takes effect after a restart) and the game in the properties of the Windows package.
 
-![Selecting a Windows project package's graphics API from the Property grid](media/ReleaseNotes-4.4/game-graphics-api-selector.webp)
+![Selecting a Windows project package's graphics API from the Property grid.](media/ReleaseNotes-4.4/game-graphics-api-selector.webp)
 
 ### 🎨 A brand-new SDSL shader compiler
 
-The biggest internal change in 4.4 is a **complete rewrite of the SDSL shader compiler**, now built around a modern [SPIR-V](https://www.khronos.org/spirv/)-centric pipeline.
+The biggest internal change in 4.4 is a **complete rewrite of the SDSL shader compiler**, now built around a modern [SPIRV](https://www.khronos.org/spirv/)-centric pipeline.
 
 Instead of parsing and stitching shaders together as text, Stride now works in **SPIR-V bytecode** end to end:
 
 * Each `.sdsl` shader is parsed **once** and compiled into its own **SPIR-S** module (SPIR-Stride, Stride's extended SPIR-V dialect).
 * Effects (`.sdfx`) then **mix and compose** those modules **directly as bytecode**, converting the result to standard **SPIR-V** for the GPU backend.
 * Crucially, text parsing happens **only at that first step:** recombining a new shader variation from already-compiled SPIR-S needs no re-parsing.
+
+![The new SDSL shader pipeline: many .sdsl shaders are parsed once into per-shader SPIR-S bytecode, .sdfx effects mix and compose them into standard SPIR-V, which feeds Vulkan natively and Direct3D and Metal via SPIRV-Cross.](media/ReleaseNotes-4.4/sdsl-pipeline.webp)
 
 What this means for you:
 
@@ -77,8 +79,6 @@ What this means for you:
 
 > [!WARNING]
 > Because the entire shader compiler was replaced, custom `.sdsl` shaders may need minor adjustments to compile cleanly. If you encounter any problems, please [open an issue on GitHub](https://github.com/stride3d/stride/issues) so we can fix it.
-
-![The new SDSL shader pipeline: many .sdsl shaders are parsed once into per-shader SPIR-S bytecode, .sdfx effects mix and compose them into standard SPIR-V, which feeds Vulkan natively and Direct3D and Metal via SPIRV-Cross](media/ReleaseNotes-4.4/sdsl-pipeline.webp)
 
 *Huge thanks to **[Youness Kafia](https://github.com/ykafia)**, whose early prototyping and experimentation laid the foundation for the new SDSL pipeline.*
 
@@ -100,7 +100,11 @@ var playerModel = Content.Load(Assets.Models.Player);
 
 **Asset paths from external packages now begin with a namespace**, to ensure there are no conflicts between different libraries. This won't break your existing projects, as the paths will be **automatically changed in your code during the upgrade**.
 
-Additionally, Stride now allows you to create **replacement assets**, which can be used to override assets from external packages or even the engine itself. For more information, visit their dedicated page in the [documentation](../manual/assets/replacement-assets.md).
+Adding assets to root now defaults to using the **project package that an asset belongs to** instead of the current one (like `MyGame.Windows`). This ensures that your assets work the same across different platforms. Game Studio also now tells you the name of the project package where the asset will be root and allows you to choose from alternatives.
+
+![](media/ReleaseNotes-4.4/new-include-in-root.webp)
+
+Finally, Stride now allows you to create **replacement assets**, which can be used to override assets from external packages or even the engine itself. For more information, visit their dedicated page in the [documentation](../manual/assets/replacement-assets.md).
 
 ![Replacement assets can be used to override the default font used by Stride.](media/ReleaseNotes-4.4/replacement-assets.webp)
 
@@ -108,14 +112,15 @@ Additionally, Stride now allows you to create **replacement assets**, which can 
 
 Along with 4.4, we also released an **update to the launcher**. On the surface, **everything is mostly the same**, aside from a minor face-lift. The real change comes under-the-hood with the launcher now using **Avalonia** as its UI framework, which will make it possible to target **Linux** and **macOS** in the future.
 
-TODO: IMAGE
+![](media/ReleaseNotes-4.4/new-launcher.webp)
 
-The new launcher is a part of the ongoing **cross-platform editor rewrite**. This is an enormous effort that will take a lot of time and effort, so if you are willing to help, **check out the [white paper](https://docs.google.com/document/d/1q2nPnmrSfSJ9Njn8yxFPVeQSsJo7T0rvC7b4Q7ddmVY/edit?usp=sharing) and the [Avalonia Editor Rewrite project](https://github.com/orgs/stride3d/projects/6/) on GitHub.**
+The new launcher is a part of the ongoing **cross-platform editor rewrite**. This is an enormous endeavour that will take a lot of time and effort, so if you are willing to help, **check out the [white paper](https://docs.google.com/document/d/1q2nPnmrSfSJ9Njn8yxFPVeQSsJo7T0rvC7b4Q7ddmVY/edit?usp=sharing) and the [Avalonia Editor Rewrite project](https://github.com/orgs/stride3d/projects/6/) on GitHub.**
 
 ### 🧰 Building and engine architecture
 
-* **Much faster asset builds.** Assets compile **2x** faster for a typical game, and up to **10×** faster for Stride's own tests, thanks to a new asset-build cache.
+* **Much faster asset builds.** Assets compile **2x** faster for a typical game, and up to **10x** faster for Stride's own tests, thanks to a new asset-build cache.
 * **`.slnx` is the new default solution format.** Existing `.sln` solutions still open and save normally.
+* **Game Studio can now open projects that use newer versions of .NET.** You can use the newest C# features in your projects without having to update or fork the engine.
 * **Support for file-based apps.** You can now create a Stride game using a single C# file. For more information, check out the [community toolkit](https://stride3d.github.io/stride-community-toolkit/manual/code-only/examples/file-based-app.html).
 * **Dropped support for 32-bit.** The engine now only targets modern 64-bit systems.
 
@@ -134,11 +139,11 @@ We looked at **Bepu's own character example** to solve these issues. Unfortunate
 
 Since 4.3, our documentation has received a lot of changes. This is a part of an **ongoing effort to bring the documentation up-to-date** and restructure it to provide space for future content.
 
-![Documentation changelog is available in the manual](media/ReleaseNotes-4.4/docs.webp)
+![Documentation changelog is available in the manual.](media/ReleaseNotes-4.4/docs.webp)
 
 * [Get started](../manual/get-started/index.md) and [Platforms](../manual/platforms/index.md) have been **rewritten from scratch**.
 * **New sections:** [Assets](../manual/assets/index.md), [Install and update](../manual/install-and-update/index.md) and [Project](../manual/files-and-folders/index.md).
-* **New pages for new features:** [NativeAOT](../manual/files-and-folders/building-the-game/native-aot.md), [Replacement assets](../manual/assets/replacement-assets.md) and [Stride CLI](../manual/get-started/stride-cli.md?tabs=powershell).
+* **New pages for new features:** [NativeAOT](../manual/files-and-folders/building-the-game/native-aot.md), [Replacement assets](../manual/assets/replacement-assets.md) and [Stride CLI](../manual/get-started/stride-cli.md).
 * Brand new guide on **how to build and publish games** ([link](../manual/files-and-folders/building-the-game/index.md)).
 * Updated instructions on **publishing custom external packages** ([link](../manual/files-and-folders/external-packages/publish-a-nuget-package.md)).
 * Removed outdated sections and pages.
@@ -166,7 +171,7 @@ The **crash reporter** has been overhauled from the ground-up. It now runs **ind
 
 Stride 4.4's test suite has been greatly expanded. Instead of being occasionally invoked for a few specific configurations, the CI (Continuous Integration) now **runs the entire test matrix across all platforms and graphics APIs.**
 
-Regressions on any platform or backend is now caught automatically before any change gets merged. This means that you can now confidently open a pull request and **trust the CI to prove it works everywhere**.
+Regressions on any platform or backend are now caught automatically before any change gets merged. This means that you can confidently open a pull request and **trust the CI to prove it works everywhere**.
 
 ![The GitHub dashboard shows all tests across multiple platforms and graphics APIs.](media/ReleaseNotes-4.4/ci-run.webp)
 
@@ -178,19 +183,30 @@ The new **CompareGold** tool helps **visualize differences between images** and 
 
 The CI can also now **automatically generate gold images for every platform**. This means that you no longer have to waste time retaking screenshots by hand, as the [Test Gold Generation workflow](https://github.com/stride3d/stride/actions/workflows/test-gold-gen.yml) will do it for you.
 
-## 💥 Breaking changes
+## Breaking changes
 
 * **Custom shaders:** the SDSL compiler was rewritten, so you might want to review how your custom shaders render. If you have a shader that no longer compiles or behaves differently, please [open an issue on GitHub](https://github.com/stride3d/stride/issues) so we can fix it.
 * **Low-level graphics:** **Direct3D 12** now requires **Enhanced Barriers**. The legacy barrier path has been removed.
 * **Vulkan updated to 1.3:** this might break support for older devices and users with outdated drivers.
-* **Convex hulls:** the library we use to generate convex hulls (V-HACD) was updated. This new version improves on speed and accuracy, but has a wildly different set of configurable parameters, so you may want to validate them for accuracy.
+* **OpenGL has been removed:** consider changing the graphics API of your project to Vulkan or Direct 3D.
+* **Convex hull changes:** the library we use to generate convex hulls (V-HACD) was updated. This new version improves on speed and accuracy, but has a wildly different set of configurable parameters, so you may want to validate them for accuracy.
 * **Bepu `CharacterController` was reworked:** existing character setups will behave differently and need adjustment. See [⚙️ Changes to the physics `CharacterComponent`](#-changes-to-the-physics-charactercomponent).
 * **Removed the ability to override Game Settings:** the feature was partially broken and not really that useful, which is why it was decided to remove it altogether. If you want to change settings depending on a user's platform/device, consider creating a **custom Game class**.
-* **`GameSettings.Configuration.Get<T>()` is now `GameSettings.GetOrCreateConfiguration<T>()`:** this was caused by other changes to Game Settings (see previous point).
-* **`ScrollViewer.ScrollOfInternal` is now private:** the property was mistakenly made public, which as its name suggests, shouldn't have been the case.
-* Dropped support for **32-bit** systems.
+* **Dropped support for 32-bit systems.**
 
-## 🙏 Acknowledgements
+Changes to code API (should be automatically resolved during project upgrade):
+
+* `GameSettings.Configuration.Get<T>` is now `GameSettings.GetOrCreateConfiguration<T>`
+* `Utilities.CopyWithAlignmentFallback` is now `MemoryUtilities.CopyWithAlignmentFallback`.
+* `Utilities.Clear` is now `MemoryUtilities.Clear`.
+* `Utilities.AllocateMemory` is now `MemoryUtilities.Allocate`.
+* `Utilities.AllocateClearedMemory` is now `MemoryUtilities.AllocateCleared`.
+* `Utilities.FreeMemory` is now `MemoryUtilities.Free`.
+* `Utilities.IsMemoryAligned` is now `MemoryUtilities.IsAligned`.
+* `Utilities.Swap<T>` is now `MemoryUtilities.Swap<T>`.
+* `ScrollViewer.ScrollOfInternal` is now private.
+
+## Acknowledgements
 
 We'd like to thank everyone who contributed to 4.4:
 
