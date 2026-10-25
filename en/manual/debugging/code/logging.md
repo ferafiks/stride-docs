@@ -4,7 +4,7 @@ Many games and applications use **logs** to display messages describing what is 
 
 TODO: IMAGE OF AN EXAMPLE
 
-Stride uses it's own logging system, which can also be utilized by your own code.
+Stride uses its own logging system, which can also be utilized by your own code.
 
 ## How to log
 
@@ -40,7 +40,11 @@ On Windows, if the game is running in the debug configuration, the terminal is a
 
 ## Activate or deactivate log types
 
-In Stride, it's possible to deactivate logs by type. By default, logs from type `Warning` to `Fatal` are enabled.
+In Stride, it's possible to deactivate logs by type. By default, log visibility looks like this:
+
+| | Debug | Verbose | Info | Warning | Error | Fatal |
+| :-- | :-: | :-: | :-: | :-: | :-: | :-: |
+| Activated (is visible) | No | No | No | Yes | Yes | Yes |
 
 You can specify which logs are activated using [`ActivateLog(fromLevel, toLevel)`](xref:Stride.Core.Diagnostics.Logger.ActivateLog(Stride.Core.Diagnostics.LogMessageType,Stride.Core.Diagnostics.LogMessageType,System.Boolean)) or toggle them individually with [`ActivateLog(type, enabledFlag)`](xref:Stride.Core.Diagnostics.Logger.ActivateLog(Stride.Core.Diagnostics.LogMessageType,System.Boolean)).
 
