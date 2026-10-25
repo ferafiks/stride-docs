@@ -1,3 +1,10 @@
 # Code
 
-:P
+Being able to debug your own code is one of the most important skills you can have as a programmer. **Your code will break** and being able to quickly fix it can immencly boost your productivity.
+
+If you do manage to find the cause of a bug, but don't know where to go, consider joining the official Stride discord server, where you can ask for help.
+
+Alternatively, you can use other resources:
+
+* [Answer overflow](https://www.answeroverflow.com/c/500285081265635328/) - posts in the `#help` on our discord are automatically exported to answer overflow, so that others may find solutions on the internet.
+* [Stack exchange](https://gamedev.stackexchange.com/questions/tagged/stride) - a forum dedicated to solving issues, that hosts many solutions to common problems.

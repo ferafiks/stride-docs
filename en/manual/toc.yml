@@ -113,26 +113,6 @@ items:
       - name: Set an audio device
         href: audio/set-an-audio-device.md
 
-  - name: Debugging
-    href: debugging/index.md
-    items:
-      - name: Code
-        href: debugging/code/index.md
-        items:
-          - name: Logging
-            href: debugging/code/logging.md
-          - name: Debug text
-            href: debugging/code/debug-text.md
-          - name: Unit tests
-            href: debugging/code/unit-tests.md
-      - name: Performance
-        href: debugging/performance/index.md
-        items:
-          - name: Game profiler
-            href: debugging/performance/game-profiler/index.md
-          - name: Render doc
-            href: debugging/performance/render-doc.md
-
   - name: Engine
     href: engine/index.md
     items:
@@ -660,6 +640,28 @@ items:
             href: virtual-reality/display-a-UI-in-an-overlay.md
       - name: VR sickness
         href: virtual-reality/vr-sickness.md
+
+  - name: Debugging
+    href: debugging/index.md
+    items:
+      - name: Code
+        href: debugging/code/index.md
+        items:
+          - name: Breakpoints
+            href: debugging/code/breakpoints.md
+          - name: Debug text
+            href: debugging/code/debug-text.md
+          - name: Logging
+            href: debugging/code/logging.md
+          - name: Unit tests
+            href: debugging/code/unit-tests.md
+      - name: Performance
+        href: debugging/performance/index.md
+        items:
+          - name: Game profiler
+            href: debugging/performance/game-profiler/index.md
+          - name: Render doc
+            href: debugging/performance/render-doc.md
 
   - name: Troubleshooting
     href: troubleshooting/index.md

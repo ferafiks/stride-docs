@@ -3,10 +3,7 @@
 <span class="badge text-bg-primary">Beginner</span>
 <span class="badge text-bg-success">Programmer</span>
 
-You can print debug text at runtime with [DebugText](xref:Stride.Engine.ScriptComponent.DebugText). For example, you can use this to display a message when a problem occurs.
-
-> [!WARNING]
-> Currently, using Debug Text with Vulkan produces crashes.
+Stride allows you to easily display text on the screen using [DebugText](xref:Stride.Engine.ScriptComponent.DebugText). This is useful when you want to check a rapidly changing value or display a message when a problem occurs.
 
 ## Printing text
 

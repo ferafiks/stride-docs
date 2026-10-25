@@ -1,15 +1,18 @@
 # Breakpoints
 
-Dotnet allows you to pause the execution of your game when it reaches a certain place in code using breakpoints.
+Many IDEs (editors for code) allow you to pause the execution of your game when it reaches a certain place in code using breakpoints.
 
 TODO: IMAGE
 
-In this pause state, you can inspect values of variables.
+In this paused state, you are able to inspect the call stack, view values of variables as well as modify them.
 
 TODO: IMAGE
 
 > [!NOTE]
 > Not all IDEs (code editors) support setting breakpoints. This page includes instructions for a select few.
+
+> [!NOTE]
+> Breakpoints cannot be used with the **script editor** in **Game Studio**.
 
 ## Create a breakpoint
 
@@ -55,7 +58,7 @@ You can create a conditional breakpoint similarly to a normal breakpoint, by rig
 
 TODO: IMAGE
 
-Then, you can specify a condition.
+Then, you can write your condition and apply it by pressing the <kbd>Return<kbd> key.
 
 TODO: IMAGE
 
@@ -65,7 +68,7 @@ You can create a conditional breakpoint similarly to a normal breakpoint, by rig
 
 TODO: IMAGE
 
-Then, you can specify a condition.
+Then, you can write your condition and apply it by pressing the <kbd>Return<kbd> key.
 
 TODO: IMAGE
 
