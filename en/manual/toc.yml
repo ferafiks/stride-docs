@@ -656,8 +656,8 @@ items:
       - name: Performance
         href: debugging/performance/index.md
         items:
-          - name: Game profiler
-            href: debugging/performance/game-profiler/index.md
+          - name: Profiler
+            href: debugging/performance/profiler/index.md
           - name: Render doc
             href: debugging/performance/render-doc.md
 

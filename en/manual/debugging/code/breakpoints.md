@@ -58,7 +58,7 @@ You can create a conditional breakpoint similarly to a normal breakpoint, by rig
 
 TODO: IMAGE
 
-Then, you can write your condition and apply it by pressing the <kbd>Return<kbd> key.
+Then, you can write your condition and apply it by pressing the <kbd>Return</kbd> key.
 
 TODO: IMAGE
 
@@ -68,7 +68,7 @@ You can create a conditional breakpoint similarly to a normal breakpoint, by rig
 
 TODO: IMAGE
 
-Then, you can write your condition and apply it by pressing the <kbd>Return<kbd> key.
+Then, you can write your condition and apply it by pressing the <kbd>Return</kbd> key.
 
 TODO: IMAGE
 

@@ -106,7 +106,7 @@ private static void RunGameTest(Func<Game, Scene, Task> asyncFunction)
     // Fixed time step to reduce framerate discrepancies
     game.IsFixedTimeStep = true;
     game.IsDrawDesynchronized = false;
-    game.TargetElapsedTime = TimeSpan.FromTicks(10000000 / 60); // 60hz, 60fps
+    game.TargetElapsedTime = TimeSpan.FromTicks(10000000 / 60); // 60fps
     
     game.Script.AddTask(async () =>
     {
