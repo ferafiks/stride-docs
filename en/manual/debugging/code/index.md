@@ -7,4 +7,7 @@ If you do manage to find the cause of a bug, but don't know where to go, conside
 Alternatively, you can use other resources:
 
 * [Answer overflow](https://www.answeroverflow.com/c/500285081265635328/) - posts in the `#help` on our discord are automatically exported to answer overflow, so that others may find solutions on the internet.
-* [Stack exchange](https://gamedev.stackexchange.com/questions/tagged/stride) - a forum dedicated to solving issues, that hosts many solutions to common problems.
+* [Github discussions](https://github.com/stride3d/stride/discussions) - one of the oldest and biggest resources for Stride-related problems and discussions.
+
+> [!TIP]
+> Solutions to many coding problems can be found for general C# projects that have nothing to do with Stride.
