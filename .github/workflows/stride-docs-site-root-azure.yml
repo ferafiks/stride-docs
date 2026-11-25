@@ -29,23 +29,30 @@ on:
 
 permissions:
   contents: read
+  id-token: write  # required to sign in to Azure (purge of the Azure Front Door cache)
 
 env:
   # Pushes to master are deployed to staging only
   SLOT: ${{ inputs.slot || 'staging' }}
 
+# A newer run to the same slot replaces the older one, also while it waits for approval
 concurrency:
-  group: azure-${{ inputs.slot || 'staging' }}
-  cancel-in-progress: false
+  group: site-root-azure-${{ inputs.slot || 'staging' }}
+  cancel-in-progress: true
 
 jobs:
   deploy:
     # Run this job only if the repository is 'stride3d/stride-docs'
     if: github.repository == 'stride3d/stride-docs'
+    # One deploy at a time on a slot, shared with the version workflow
+    concurrency:
+      group: azure-${{ inputs.slot || 'staging' }}
+      cancel-in-progress: false
     runs-on: ubuntu-latest
 
     environment:
-      name: ${{ inputs.slot == 'production' && 'Production' || 'Staging' }}
+      # Staging-branch requires an approval: any branch can deploy to staging through it, Staging only allows master and master-*
+      name: ${{ inputs.slot == 'production' && 'Production' || (github.ref_name == 'master' || startsWith(github.ref_name, 'master-')) && 'Staging' || 'Staging-branch' }}
 
     steps:
     - name: Check branch
@@ -116,3 +123,19 @@ jobs:
         check /en/contributors/missing-page.html 404
         curl -s "$base/en/contributors/missing-page.html" | grep -q '"/en/public/' || { echo "::error::/en/ doesn't serve its own 404 page"; failed=1; }
         exit $failed
+
+    # Azure Front Door caches doc.stride3d.net: without a purge, it serves the old files and redirects until they expire
+    - name: Sign in to Azure
+      if: env.SLOT == 'production'
+      uses: azure/login@v2
+      with:
+        # Variables of the Production environment: the stride-frontdoor-purge managed identity, see deployment-azure.md
+        client-id: ${{ vars.AZURE_CLIENT_ID }}
+        tenant-id: ${{ vars.AZURE_TENANT_ID }}
+        subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+    # Everything: web.config changes the redirects of every version and what /latest/ serves
+    - name: Purge the Azure Front Door cache
+      if: env.SLOT == 'production'
+      # Front Door takes a few minutes to apply it, no need to wait
+      run: az afd endpoint purge -g Stride3d --profile-name stride-frontdoor --endpoint-name stride-doc --content-paths '/*' --no-wait

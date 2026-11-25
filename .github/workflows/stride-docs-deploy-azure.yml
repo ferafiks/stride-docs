@@ -40,19 +40,26 @@ on:
 
 permissions:
   contents: write  # required to create releases/tags
+  id-token: write  # required to sign in to Azure (purge of the Azure Front Door cache)
 
+# A newer run of the same branch to the same slot replaces the older one, also while it waits for approval
 concurrency:
-  group: azure-${{ inputs.slot }}
-  cancel-in-progress: false
+  group: deploy-azure-${{ github.ref_name }}-${{ inputs.slot }}
+  cancel-in-progress: true
 
 jobs:
   build-deploy:
     # Run this job only if the repository is 'stride3d/stride-docs'
     if: github.repository == 'stride3d/stride-docs'
+    # One deploy at a time on a slot, shared with the site root workflow
+    concurrency:
+      group: azure-${{ inputs.slot }}
+      cancel-in-progress: false
     runs-on: windows-2025-vs2026
 
     environment:
-      name: ${{ inputs.slot == 'production' && 'Production' || 'Staging' }}
+      # Staging-branch requires an approval: any branch can deploy to staging through it, Staging only allows master and master-*
+      name: ${{ inputs.slot == 'production' && 'Production' || (github.ref_name == 'master' || startsWith(github.ref_name, 'master-')) && 'Staging' || 'Staging-branch' }}
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -157,3 +164,30 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       working-directory: ${{ env.DOCS_PATH }}
+
+    # Azure Front Door caches doc.stride3d.net: without a purge, it serves the old pages until they expire
+    - name: Sign in to Azure
+      if: inputs.slot == 'production'
+      uses: azure/login@v2
+      with:
+        # Variables of the Production environment: the stride-frontdoor-purge managed identity, see deployment-azure.md
+        client-id: ${{ vars.AZURE_CLIENT_ID }}
+        tenant-id: ${{ vars.AZURE_TENANT_ID }}
+        subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+    - name: Purge the Azure Front Door cache
+      if: inputs.slot == 'production'
+      shell: bash
+      env:
+        # Git Bash would turn /4.4/* into a Windows path
+        MSYS_NO_PATHCONV: 1
+      run: |
+        version="${{ steps.version.outputs.version }}"
+        paths=("/$version/*")
+        # /latest/ is a rewrite of web.config: Front Door caches its pages apart from the ones of the version folder
+        latest=$(curl -sf https://stride-doc.azurewebsites.net/versions.json | jq -r .latest)
+        if [ "$latest" = "$version" ]; then paths+=("/latest/*"); fi
+        if [ "${{ steps.version.outputs.unversioned }}" = "true" ]; then paths+=("/en/*"); fi
+        echo "Purging ${paths[*]}"
+        # Front Door takes a few minutes to apply it, no need to wait
+        az afd endpoint purge -g Stride3d --profile-name stride-frontdoor --endpoint-name stride-doc --content-paths "${paths[@]}" --no-wait

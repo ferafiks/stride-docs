@@ -31,7 +31,7 @@ flowchart LR
 The site hosts the documentation of several versions, each in its own folder (`4.4/`, `4.3/`, ...), the sections that aren't versioned in `en/` (contributing, community resources and release notes, see `unversioned` in `versions.json`), and a few files at its root shared by all versions:
 
 - `versions.json` lists the versions shown in the version selector and which one is the latest
-- `web.config` serves `/latest/` from the latest version folder, and holds the redirection rules, i.e. from the unversioned sections of every version to `en/`
+- `web.config` serves `/latest/` from the latest version folder, and holds the redirection rules, i.e. from the unversioned sections of every version to `en/`, and from a version that has no folder on the site (i.e. the version in development) to `/latest/`
 - `robots.txt` keeps search engines on `/latest/`
 
 Each version is deployed from its own branch (`master` for the version in development, `master-4.3` for 4.3, ...) and only replaces its own folder. The root files are always deployed from `master`, so deploying an older version never changes which version is the latest. Making a version the latest one is a change to `versions.json` followed by a run of the site root workflow, without rebuilding any documentation.
@@ -122,11 +122,17 @@ Both Azure workflows deploy to the same Azure Web App, `stride-doc`. The **slot*
 | --- | --- | --- |
 | `app-name` | `stride-doc` | `stride-doc` |
 | `slot-name` | `Production` | `staging` |
-| GitHub environment | `Production` | `Staging` |
-| Publish profile | Secret `AZURE_PUBLISH_PROFILE` of the `Production` environment | Secret `AZURE_PUBLISH_PROFILE` of the `Staging` environment |
+| GitHub environment | `Production` | `Staging` from `master` and `master-*`, `Staging-branch` from other branches |
+| Publish profile | Secret `AZURE_PUBLISH_PROFILE` of the `Production` environment | Secret `AZURE_PUBLISH_PROFILE` of the `Staging` and `Staging-branch` environments (the same staging slot profile) |
 | URL | [doc.stride3d.net](https://doc.stride3d.net/) | [stride-doc-staging.azurewebsites.net](https://stride-doc-staging.azurewebsites.net/latest/en/index.html) |
 
-Each publish profile is a secret of its environment, so only jobs running in that environment can use it. Required reviewers and deployment branches (i.e. `master` and `master-*`) can be set on the `Production` environment in the repository settings, so that production deployments wait for an approval.
+For production, both also purge the cache of [Azure Front Door](deployment-azure.md#azure-front-door-cache), which serves `doc.stride3d.net`. They sign in to Azure with the variables `AZURE_CLIENT_ID`, `AZURE_TENANT_ID` and `AZURE_SUBSCRIPTION_ID` of the `Production` environment, without any secret.
+
+Each publish profile is a secret of its environment, so only jobs running in that environment can use it:
+
+- `Production` only accepts the branches `master` and `master-*`, and has the team `stride-website-publishers` as required reviewers: a deployment waits until one of its members approves it (**Review deployments** on the run page), even when they started it themselves
+- `Staging` only accepts the branches `master` and `master-*`, without approval: what reached them, through a pull request or an admin, is deployed to staging at once
+- `Staging-branch` accepts any branch, to test a branch on staging, with the same required reviewers as `Production`: a branch can change the workflow it runs, so only an approval keeps the staging publish profile from it
 
 Both use [Azure Web Apps Deploy v3](https://github.com/Azure/webapps-deploy) with a `target-path`, which deploys only into that path of the site. Nothing outside of it is removed, so the other versions and the root files stay untouched.
 
@@ -141,6 +147,7 @@ For how the Azure Web App itself is configured, see [Deployment](deployment-azur
 1. From `master` only, deploys the unversioned sections (`_site/en`) to `/home/site/wwwroot/en` the same way: they're maintained on `master`, other branches don't deploy them
 1. Checks that `build.json` of each deployed folder has the commit just built, on the Azure Web App itself
 1. For production, creates a **draft** GitHub Release tagged `2.0.0.<run number>`, which is why this workflow requests `contents: write` permission
+1. For production, purges the Azure Front Door cache of the version folder (i.e. `/4.4/*`), of `/latest/*` when it's the latest version, and of `/en/*` when the unversioned sections were deployed
 
 The documentation of a version not released yet (a beta) can be deployed to production as well: it's available in its own folder, without being the latest. Game Studio loads its getting started links from there, and the Stride Launcher its release notes from the unversioned sections, which have the release notes of every version.
 
@@ -152,7 +159,9 @@ The documentation of a version not released yet (a beta) can be deployed to prod
 - `web.config`, with `%latest_version%` replaced by the latest version of `versions.json`, and `%unversioned_sections%` by its unversioned sections
 - `robots.txt`, with a `Disallow` for each version of `versions.json`
 
-A push to `master` changing one of these files deploys them to staging. Deploying them to production is manual, and only allowed from `master`.
+A push to `master` changing one of these files deploys them to staging. Deploying them to production is manual, and only allowed from `master`. A production deploy purges the whole Azure Front Door cache of the site: `web.config` changes the redirects of every version and what `/latest/` serves.
+
+Both workflows deploy to a slot one at a time. A newer run of the same workflow to the same slot (and from the same branch, for a version) cancels the older one, also while it waits for approval, so only the latest run can be approved. To go back to an earlier version, revert it on its branch, or re-run the older run of the workflow.
 
 ## GitHub Pages workflow
 
