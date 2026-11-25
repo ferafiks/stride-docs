@@ -8,12 +8,6 @@ The **Asset view** panel allows you to explore the contents of a folder. It's ty
 
 ## View asset compilation status
 
-Every asset has a small colored dot in the top left corner. It displays its [asset compilation status](../../assets/asset-compilation.md) (i.e. if it will be included in the build or not).
-
-![](../../assets/media/asset-view-indicators.webp)
-
-Each color has a different meaning:
-
 [!INCLUDE [status-dots](../../../includes/assets/status-dots.md)]
 
 ## Filter assets

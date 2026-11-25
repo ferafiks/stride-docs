@@ -2,6 +2,9 @@
 
 <span class="badge text-bg-primary">Beginner</span>
 
+> [!WARNING]
+> This page is for the WPF Game Studio only.
+
 Game Studio's appearance can be customized in its settings, by changing the theme.
 
 > [!NOTE]

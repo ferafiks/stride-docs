@@ -11,9 +11,9 @@ Here's a summary of all the different ways of defining rotation, their benefits 
 
 | | [Yaw pitch roll](#yaw-pitch-roll) | [Euler angles](#euler-angles) | [Quaternions](#quaternions) |
 | :-- | :-: | :-: | :-: |
-| Human-readable | 🟩 | 🟩 | 🟥 |
-| Easy to store | 🟥 | 🟩 | 🟩 |
-| Easy to compute | 🟥 | 🟥 | 🟩 |
+| Human-readable | 🟢 | 🟢 | 🔴 |
+| Easy to store | 🔴 | 🟢 | 🟢 |
+| Easy to compute | 🔴 | 🔴 | 🟢 |
 | Best used in | Simple transform manipulations | Serialization | Complex transform manipulations and computing |
 
 ### Yaw pitch roll

@@ -6,10 +6,16 @@
 
 ![](media/game-studio.webp)
 
-**Game Studio only works on Windows**. If you're interested in developing Stride games on different platforms, consider using a **code-only** approach with the [community-toolkit](https://stride3d.github.io/stride-community-toolkit/manual/index.html).
+## WPF and Avalonia versions
 
-> [!NOTE]
-> **Game Studio** is being rewritten to be cross-platform.
+Game Studio is currently in a **transitional phase** for its UI, moving away from the windows-only **WPF** to the more modern **Avalonia** framework. Currently every Stride installations provides the two options for you to choose depending on your needs.
+
+* Use **WPF** if you want a more stable experience out of your editor and your machine is running Windows
+* Use **Avalonia** if you aren't using Windows or if you want to use the latest and greatest
+
+## Developing games without Game Studio
+
+The [Stride community-toolkit](https://stride3d.github.io/stride-community-toolkit/manual/index.html) provides a set of helper functions that let you make **code-only games with Stride.** It's intended for people who prefer working directly with code and don't need a visual editor.
 
 ## In this section
 
