@@ -2,19 +2,19 @@ There are many ways of controlling the Viewport camera. Each has its own use-cas
 
 | | Keys | Description |
 | :-: | :-: | :-- |
-| ![](media/viewport-pan.webp) | `Right mouse button` | Pan the camera |
-| ![](media/viewport-zoom.webp) | `Scroll` | Zoom |
-| ![](media/viewport-focus.webp) | `F` | Focus on an object |
-| ![](media/viewport-orbit.webp) | `Alt + Left mouse button` | Orbit around a focused object |
-| ![](media/viewport-walk.webp) | `Middle + Left mouse button` | Walk |
+| ![](media/viewport-pan.webp) | <kbd>Right mouse button</kbd> | Pan the camera |
+| ![](media/viewport-zoom.webp) | <kbd>Scroll</kbd> | Zoom |
+| ![](media/viewport-focus.webp) | <kbd>F</kbd> | Focus on an object |
+| ![](media/viewport-orbit.webp) | <kbd>Alt</kbd> + <kbd>Left mouse button</kbd> | Orbit around a focused object |
+| ![](media/viewport-walk.webp) | <kbd>Middle</kbd> + <kbd>Left mouse button</kbd> | Walk |
 
 You can also move the camera around similarly to a video game, by holding down the **Right mouse button** and pressing additional keys:
 
 | Keys | Description |
 | :-: | :-- |
-| `W/A/S/D` or arrow keys | Move forwards/left/backwards/right |
-| `Q/E` | Move down/up |
-| `Shift` | Increase speed |
+| <kbd>W</kbd>/<kbd>A</kbd>/<kbd>S</kbd>/<kbd>D</kbd> or arrow keys | Move forwards/left/backwards/right |
+| <kbd>Q</kbd>/<kbd>E</kbd> | Move down/up |
+| <kbd>Shift</kbd> | Increase speed |
 
 > [!TIP]
 > All Viewport keybinds can be changed in the [settings](../../manual/game-studio/settings.md).
